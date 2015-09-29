@@ -53,7 +53,7 @@ def create_renders_fct(randomise_dir, n_cons, background_img):
     import os
     thresh = .95
     out_files_list = []
-    corr_list = ['glm_tfce_corrp_tstat', 'glm_tfce_p_tstat']
+    corr_list = ['glm_tfce_corrp_tstat']
     for corr in corr_list:
         for con in range(1, n_cons + 1):
             output_root = corr + str(con)

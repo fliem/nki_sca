@@ -23,17 +23,16 @@ def create_sca_wf(working_dir, name='sca'):
                      name='inputnode')
 
     # outputnode
-    outputnode = Node(util.IdentityInterface(fields=['functional_mask',
-                                                     'seed_based_z',
+    outputnode = Node(util.IdentityInterface(fields=['seed_based_z',
                                                      'roi_img']),
                       name='outputnode')
 
 
 
 
-    epi_mask = Node(interface=afni.Automask(), name='epi_mask')
-    sca_wf.connect(inputnode, 'rs_preprocessed', epi_mask, 'in_file')
-    sca_wf.connect(epi_mask, 'out_file', outputnode, 'functional_mask')
+    # epi_mask = Node(interface=afni.Automask(), name='epi_mask')
+    # sca_wf.connect(inputnode, 'rs_preprocessed', epi_mask, 'in_file')
+    # sca_wf.connect(epi_mask, 'out_file', outputnode, 'functional_mask')
 
     def roi2exp_fct(coord):
         return 'step(4-(x%+d)*(x%+d)-(y%+d)*(y%+d)-(z%+d)*(z%+d))'%(coord[0], coord[0], coord[1], coord[1], -coord[2], -coord[2])
