@@ -53,7 +53,7 @@ ds = Node(nio.DataSink(base_directory=ds_dir), name='ds')
 # GET DATA
 ######################
 age_infosource = Node(util.IdentityInterface(fields=['age_switch']), name='age_infosource')
-age_infosource.iterables = ('age_switch', ['full_range', 'adults_only'])
+age_infosource.iterables = ('age_switch', ['full_range', 'adults_only', 'under_18'])
 
 
 def get_subjects_list_and_age_fct(age_switch, df):
@@ -63,7 +63,8 @@ def get_subjects_list_and_age_fct(age_switch, df):
 
     if age_switch == 'adults_only':
         df = df[df.AGE_04 >= 18]
-
+    elif age_switch == 'under_18':
+        df = df[df.AGE_04 < 18]
     subjects_list = df.leica_id.values
     age = df.AGE_04.values
 
