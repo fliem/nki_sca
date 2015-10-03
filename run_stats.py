@@ -108,6 +108,9 @@ merge = Node(fsl.Merge(dimension='t'),
 wf.connect(create_merge_list, 'out_files', merge, 'in_files')
 wf.connect(merge, 'merged_file', ds, 'group.merged')
 
+smooth = Node(fsl.IsotropicSmooth(fwhm=6), name='smooth')
+wf.connect(merge, 'merged_file', smooth, 'in_file')
+
 mean_image = Node(fsl.MeanImage(), name='mean_image')
 wf.connect(merge, 'merged_file', mean_image, 'in_file')
 wf.connect(mean_image, 'out_file', ds, 'group.mean_group_image')
@@ -131,7 +134,8 @@ run_randomise = Node(util.Function(input_names=['data_file', 'mat_file', 'con_fi
                                    output_names=['out_dir'],
                                    function=run_randomise_fct),
                      name='run_randomise')
-wf.connect(merge, 'merged_file', run_randomise, 'data_file')
+# wf.connect(merge, 'merged_file', run_randomise, 'data_file')
+wf.connect(smooth, 'out_file', run_randomise, 'data_file')
 wf.connect(design_files, 'con_file', run_randomise, 'con_file')
 wf.connect(design_files, 'mat_file', run_randomise, 'mat_file')
 run_randomise.inputs.mask_file = brain_mask_img
