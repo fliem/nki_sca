@@ -115,6 +115,10 @@ mean_image = Node(fsl.MeanImage(), name='mean_image')
 wf.connect(merge, 'merged_file', mean_image, 'in_file')
 wf.connect(mean_image, 'out_file', ds, 'group.mean_group_image')
 
+mean_smooth_image = Node(fsl.MeanImage(), name='mean_smooth_image')
+wf.connect(smooth, 'out_file', mean_smooth_image, 'in_file')
+wf.connect(mean_smooth_image, 'out_file', ds, 'group.mean_smooth_group_image')
+
 
 
 ######################
